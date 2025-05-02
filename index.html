@@ -138,6 +138,17 @@
       </div>
     </section>
 
+    <section id="chores">
+      <h2>Chores</h2>
+      <select id="chore-view">
+        <option value="mine">My Chores</option>
+        <option value="all">Everyone's Chores</option>
+      </select>
+      <input type="text" id="chore-input" placeholder="Add new chore...">
+      <button onclick="addChore()">Add</button>
+      <ul id="chore-list"></ul>
+    </section>
+
     <section id="bible">
       <h2>Verse of the Day</h2>
       <p id="daily-verse">"Let all that you do be done in love." – 1 Corinthians 16:14</p>
@@ -226,6 +237,20 @@
 
     function claimCar(carName) {
       alert(`You claimed the ${carName}. Make sure it's available and you have permission if needed.`);
+    }
+
+    function addChore() {
+      const input = document.getElementById("chore-input");
+      const list = document.getElementById("chore-list");
+      if (input.value.trim() !== "") {
+        const item = document.createElement("li");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        item.appendChild(checkbox);
+        item.appendChild(document.createTextNode(" " + input.value));
+        list.appendChild(item);
+        input.value = "";
+      }
     }
   </script>
 </body>
