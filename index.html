@@ -80,13 +80,17 @@
       background-color: #7287DB;
       color: white;
     }
+
+    .chat-log, .challenge-log, .shopping-items, .wish-items {
+      margin-top: 10px;
+    }
   </style>
 </head>
 
 <body>
   <header>
     <div class="logo">
-      <img src="/path-to-your-logo.png" alt="The Peterson Hub Logo">
+      <img src="ThePetersonHub.png" alt="The Peterson Hub Logo">
     </div>
     <h1>The Peterson Hub</h1>
     <p class="verse">"As for me and my house, we will serve the Lord." – Joshua 24:15</p>
@@ -121,7 +125,7 @@
         <ul>
           <li>Dodge (Dad) – Reserved</li>
           <li>Toyota (Mom) – Reserved</li>
-          <li>Chrysler – Available <button>Claim</button></li>
+          <li>Chrysler – <button onclick="claimCar('Chrysler')">Claim</button></li>
           <li>Buick (Lydia) – Ask Lydia</li>
           <li>Subaru (Grandma) – Ask Grandma</li>
         </ul>
@@ -129,7 +133,8 @@
       <div id="quick-chat">
         <label for="quick-message">Quick Chat:</label>
         <input type="text" id="quick-message" placeholder="Type a message...">
-        <button>Send</button>
+        <button onclick="sendMessage()">Send</button>
+        <div class="chat-log" id="chat-log"></div>
       </div>
     </section>
 
@@ -137,26 +142,27 @@
       <h2>Verse of the Day</h2>
       <p id="daily-verse">"Let all that you do be done in love." – 1 Corinthians 16:14</p>
       <h3>Challenges</h3>
-      <ul>
-        <li>Daily</li>
-        <li>Weekly</li>
-        <li>Monthly</li>
-        <li>Yearly</li>
+      <ul class="challenge-log">
+        <li><input type="checkbox"> Daily Challenge</li>
+        <li><input type="checkbox"> Weekly Challenge</li>
+        <li><input type="checkbox"> Monthly Challenge</li>
+        <li><input type="checkbox"> Yearly Challenge</li>
       </ul>
     </section>
 
     <section id="shopping">
       <h2>Shopping List</h2>
-      <ul>
-        <li>Groceries</li>
-        <li>Toiletries</li>
-        <li>Clothes</li>
-      </ul>
+      <input type="text" id="shopping-input" placeholder="Add item...">
+      <button onclick="addShoppingItem()">Add</button>
+      <ul class="shopping-items" id="shopping-items"></ul>
     </section>
 
     <section id="wishlist">
       <h2>Wish List</h2>
-      <p>Add links to birthday or Christmas wish items here.</p>
+      <input type="text" id="wish-title" placeholder="Item">
+      <input type="text" id="wish-link" placeholder="Link (optional)">
+      <button onclick="addWishItem()">Add</button>
+      <ul class="wish-items" id="wish-items"></ul>
     </section>
 
     <section id="blog">
@@ -174,7 +180,54 @@
     <p>&copy; 2025 The Peterson Hub</p>
   </footer>
 
-  <script src="scripts.js"></script>
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("quick-message");
+      const log = document.getElementById("chat-log");
+      if (input.value.trim() !== "") {
+        const msg = document.createElement("div");
+        msg.textContent = input.value;
+        log.appendChild(msg);
+        input.value = "";
+      }
+    }
+
+    function addShoppingItem() {
+      const input = document.getElementById("shopping-input");
+      const list = document.getElementById("shopping-items");
+      if (input.value.trim() !== "") {
+        const item = document.createElement("li");
+        item.textContent = input.value;
+        list.appendChild(item);
+        input.value = "";
+      }
+    }
+
+    function addWishItem() {
+      const title = document.getElementById("wish-title").value;
+      const link = document.getElementById("wish-link").value;
+      const list = document.getElementById("wish-items");
+      if (title.trim() !== "") {
+        const item = document.createElement("li");
+        if (link.trim()) {
+          const a = document.createElement("a");
+          a.href = link;
+          a.target = "_blank";
+          a.textContent = title;
+          item.appendChild(a);
+        } else {
+          item.textContent = title;
+        }
+        list.appendChild(item);
+        document.getElementById("wish-title").value = "";
+        document.getElementById("wish-link").value = "";
+      }
+    }
+
+    function claimCar(carName) {
+      alert(`You claimed the ${carName}. Make sure it's available and you have permission if needed.`);
+    }
+  </script>
 </body>
 
 </html>
